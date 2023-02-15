@@ -8,7 +8,7 @@ Anonphisher tool is made with pure bash script and needs required packages for i
 <h1 align="center">
 <img src="https://camo.githubusercontent.com/abe80b05f3a4028b1e954640130b7865d82625b3171a17887159bbdd7ebf2929/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f417574686f722d416e6f6e796d696e4861636b352d627269676874677265656e"/>
 <img src="https://camo.githubusercontent.com/fcaa55067c12c8dd4011152d397382796b5b3eb90d2262200c3852302a3f67c8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f546f6f6c2532306e616d652d416e6f6e706869736865722d6c6967687467726579"/>
-<img src="https://camo.githubusercontent.com/dff6081929c533537b5234cf00651c6d6f0248b53625c6324d6f9ee6fc7d9ab0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f56657273696f6e2d332e312d726564"/>
+<img src="https://img.shields.io/badge/Anonphisher%20-3.2-yellow"/>
 </h1>
 
 # Anonphisher
@@ -130,11 +130,7 @@ After go back to the Anonphisher session and select ngrok
 
 # Version
 ```
-<<<<<<< HEAD
-Version 3.1 updated
-=======
 Version 3.2 beta
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
 ```
 # Having Issues? 🔍
 <b> Send your issues to me personally at AnonyminHack5@protonmail.com 💌 and I will respond to you as quick as I can.</b>
