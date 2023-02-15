@@ -1,10 +1,7 @@
 # anonphisher
 <p align="center">
-<<<<<<< HEAD
-Automated phishing tool made by AnonyminHack5 to phish various sites with 40+ templates and also has an inbuilt ngrok already to easily help you generate your link and send it to your victim. 
-=======
 Automated phishing tool made by AnonyminHack5 to phish various sites with 51+ templates and also has an inbuilt ngrok already to easily help you generate your link and send it to your victim. 
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
+(Anonphisher 3.2 beta update)
 Anonphisher tool is made with pure bash script and needs required packages for it to work. 
 </p>
 
@@ -39,11 +36,7 @@ This tool has been tested on the following systems:
 
 # Features
 <p align="center">
-<<<<<<< HEAD
- Phishing Tool for Instagram, Facebook, Twitter, Snapchat, Github, Yahoo, Protonmail, Google, Spotify, Netflix, Linkedin, Wordpress, Origin, Steam, Microsoft, InstaFollowers, fortnite, cod...+30
-=======
  Phishing Tool for Instagram, Facebook,  Airbnb, Twitter, Snapchat, Github, Yahoo, Protonmail, Google, Spotify, Netflix, Linkedin, Wordpress, Origin, Steam, Microsoft, InstaFollowers, fortnite, cod...+30
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
 </p>
 
 # Workflow
@@ -53,11 +46,8 @@ This tool has been tested on the following systems:
 #### [+] Custom !
 #### [+] Pugb free uc phishing page 2021 !
 #### [+] Free fire phishing page !
-<<<<<<< HEAD
-=======
-####[+] Airbnb Phishing page !
-####[+] CloudFlare 1 and 2 Added for Termux and Linux !
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
+#### [+] Airbnb Phishing page !
+#### [+] CloudFlare 1 and 2 Added for Termux and Linux !
 #### [+] Latest Login Pages !
 #### [+] 5 Port Forwarding Options !
 #### [+] Easy for Beginners !
@@ -77,10 +67,7 @@ Wget
 Unzip
 Curl
 Internet connection 
-<<<<<<< HEAD
-=======
 Linux system (RECOMMENDED)
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
 ```
 
 # Wanna encourage us? 
@@ -115,10 +102,7 @@ bash anonphisher.sh
 #### > SERVEO (https://serveo.net)
 #### > LOCALHOSTRUN (https://localhost.run)
 #### > LOCALXPOSE (https://localxpose.io/)
-<<<<<<< HEAD
-=======
 #### > CLOUDFLARE (https://cloudflare.com)
->>>>>>> c4cfa19 (Anonphisher 3.2 beta update)
 
 
 <p>If this is your first time in installing this tool into your termux, Then you must run the <code>bash install.sh </code>And after that dont run it again only run the <code>bash anonphisher.sh </code>
