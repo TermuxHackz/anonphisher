@@ -88,85 +88,9 @@ sudo apt-get -y install unzip
 sudo apt-get -y install openssh-server
 sudo pip install lolcat
 sleep 2
-installdependencies() {
-                xterm -T 'Update' -geometry 90x26+1000 -e 'apt update' > /dev/null 2>&1 &
-                pid0=$!
-                wait $pid0
-                    pkgs='php'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Installer' -geometry 90x26+1000  -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid1=$!
-                        wait $pid1
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-
-                    pkgs='wget'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Installer' -geometry 90x26+1000  -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid2=$!
-                        wait $pid2
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-
-                    pkgs='unzip'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Installer' -geometry 90x26+1000  -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid3=$!
-                        wait $pid3
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-
-                    pkgs='curl'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Installer' -geometry 90x26+1000  -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid4=$!
-                        wait $pid4
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-
-                    pkgs='npm'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Installer' -geometry 90x26+1000  -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid5=$!
-                        wait $pid5
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-                    
-                    pkgs='xterm'
-                    if ! dpkg -s $pkgs >/dev/null 2>&1; then
-                        xterm -T 'Update' -geometry 90x26+1000 -e 'apt install '${pkgs} > /dev/null 2>&1 &
-                        pid6=$!
-                        wait $pid6
-                    else
-                        sleep 1
-                        printf "${BCyan}[🪝] ${pkgs} ${BGreen}Installed${clr}\n"
-                    fi
-
-                #command -v rkhunter > /dev/null 2>&1 || { echo >&2 "${Red}Installing rkhunter."; xterm -T 'Installer' -geometry 90x26+0+0 -hold -e 'apt install rkhunter' > /dev/null 2>&1 &; exit 1; }
-                #command -v php > /dev/null 2>&1 || { echo >&2 "${Red}Installing php."; apt-get install php -y; exit 1; }
-                #command -v wget > /dev/null 2>&1 || { echo >&2 "${Red}Installing wget."; apt-get install wget -y; exit 1; }
-                #command -v unzip > /dev/null 2>&1 || { echo >&2 "${Red}Installing unzip."; apt-get install wget -y; exit 1; }
-                #command -v curl > /dev/null 2>&1 || { echo >&2 "${Red}Installing curl."; apt-get install curl -y; exit 1; }
-                #command -v lt > /dev/null 2>&1 || { echo >&2 "${Red}Installing localtunnel."; apt-get install npm -y; sleep 2; npm install -g localtunnel;  exit 1; }
-                #command -v ngrok > /dev/null 2>&1 || { echo >&2 "${Red}Download NGROK from Official site."; exit 1; }
-                #printf "\n"
-                #printf "${BGreen}Version ${version}"
-                exit 0
-                }
 printf "\e[1;94mRequired Packages will begin to install for Linux .. \e[0m\n"				
 sleep 2
 cls || clear
-installdependencies
 printf "\e[1;33m[\e[0m\e[1;37m*\e[0m\e[1;33m]\e[0m\e[1;40m Packages for Linux has been fully installed. Thank you! \e[0m\e[1;33m[\e[0m\e[1;37m*\e[0m\e[1;33m]\e[0m\n"
 
 elif [[ $terminal == "3" || $terminal == "03" ]]; then
