@@ -1128,16 +1128,9 @@ start_cloudflare2() {
 	start_cloudflared3
 	}
 start_cloudflare() {
-	# Check if root
-	if [ "$EUID" -ne 0 ]
-        then
-                printf "${Red}Opps! ${BGreen}Linux ${Red}Please!\n${clr}"
-                exit
-else	
 	echo "${RED}[${WHITE}-${RED}]${GREEN} Starting port forwarding by Cloudflared${BLUE}"
 	sleep 1
 	server003
-	fi
 }
 
 start_localhost() {
