@@ -74,7 +74,7 @@ Linux system (RECOMMENDED)
 To be able to encourage AnonyminHack5 with he's tools, make sure you use and rate he's <a href="https://t.me/Termux1_bot">Telegram bot</a>
 
 
-# Installation in Windows
+# Installation in Windows/Linux
 **Open up your terminal and clone the repo**
 ```
 git clone https://github.com/TermuxHackz/anonphisher
