@@ -1,6 +1,6 @@
 # anonphisher
 <p align="center">
-Automated phishing tool made by AnonyminHack5 to phish various sites with 51+ templates and also has an inbuilt ngrok already to easily help you generate your link and send it to your victim. 
+Automated phishing tool made by AnonyminHack5 to phish various sites with 51+ templates and also has an inbuilt reverse proxy already to easily help you generate your link and send it to your victim. 
 (Anonphisher 3.2 beta update)
 Anonphisher tool is made with pure bash script and needs required packages for it to work. 
 </p>
@@ -98,7 +98,6 @@ bash anonphisher.sh
 
 ## Tunelling Options :
 #### > Localhost (127.0.0.1)
-#### > NGROK (https://ngrok.com)
 #### > SERVEO (https://serveo.net)
 #### > LOCALHOSTRUN (https://localhost.run)
 #### > LOCALXPOSE (https://localxpose.io/)
@@ -123,10 +122,8 @@ To update the tool, run the <b>bash anonphisher.sh </b>and type number 20 from t
 If you do not see the account info in the anonphisher terminal, simply go into the anonphisher logs directory and use the cat command to display the log.
 #### [2] Link is not generating? !
 Run the bash setup 
-Turn on your device hotspot then select ngrok
-Of link doesnt still generate, go to ngrok.com, download ngrok, set it up in termux, then copy your authtoken and paste it into your termuxhack home
-Then turn on your device hotspot and run ./ngrok http 3333
-After go back to the Anonphisher session and select ngrok
+Turn on your device hotspot then select a reverse tunnel option
+Of link doesn't still generate, go to the specific tunneling option you are selecting and install their software manually
 
 # Version
 ```

