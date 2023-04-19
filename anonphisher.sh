@@ -244,7 +244,7 @@ download_cloudflared() {
 
 ## Install Cloudflared
 install_cloudflared() {
-	if [[ -e ".server/cloudflared" ]]; then
+	if [[ -e ".server/cloudflared/cloudflared" ]]; then
 		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${GREEN} Cloudflared already installed. ${GREEN}[${WHITE}+${GREEN}]${GREEN}"
 	else
 		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Installing Cloudflared..."${WHITE}
