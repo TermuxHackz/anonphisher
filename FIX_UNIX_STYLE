@@ -1,0 +1,2 @@
+tr -d '\r' < make-deb.sh > make-deb-fixed.sh
+dos2unix make-deb.sh
