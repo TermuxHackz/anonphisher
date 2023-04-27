@@ -48,8 +48,8 @@ This tool has been tested on the following systems:
 #### [+] Discord and Roblox Phishing Pages Added !
 
 # Credits
-<a href="https://t.me/Termux1_bot">Termux1_bot </a>
-<a href="https://github.com/htr-tech/zphisher">htr-tech</a>
+* <a href="https://t.me/Termux1_bot">Termux1_bot </a>
+* <a href="https://github.com/htr-tech/zphisher">htr-tech</a>
 
 
 # Requirements
